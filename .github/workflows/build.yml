@@ -1,0 +1,33 @@
+name: cicddemo-2026
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cicddemo-2026
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build Project
+        run: mvn clean package 
+
+      - name: Deploy to Tomcat
+        run: |
+          curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} \
+          --upload-file target/cicddemo-2026-1.war \
+          "${{ secrets.TOMCAT_URL }}/manager/text/deploy?path=/cicddemo-2026&update=true"
