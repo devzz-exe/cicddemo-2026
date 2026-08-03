@@ -9,10 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: cicddemo-2026
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -20,7 +16,7 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Build Project
